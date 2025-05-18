@@ -1,0 +1,114 @@
+USE Cataschevastica;
+
+CREATE TABLE Suppliers
+(
+  SupplierID BIGINT IDENTITY(1,1) NOT NULL,
+  SupplierName VARCHAR(50) NOT NULL,
+  Contact BIGINT NOT NULL,
+  PRIMARY KEY (SupplierID)
+);
+
+CREATE TABLE Materials
+(
+  MaterialID BIGINT IDENTITY(2,2) NOT NULL,   --The MaterialIDs are going to be even numbers
+  MaterialName VARCHAR(50) NOT NULL,
+  MaterialDescription VARCHAR(200),
+  CostPerKg DECIMAL(10,2) NOT NULL,
+  SupplierID BIGINT NOT NULL,
+  PRIMARY KEY (MaterialID),
+  FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID)
+);
+
+CREATE TABLE Products
+(
+  ProductID BIGINT IDENTITY(1,2) NOT NULL,   --The ProductIDs are going to be odd numbers
+  SKU VARCHAR(50) NOT NULL,
+  ProductName VARCHAR(50) NOT NULL,
+  ProductDescription VARCHAR(200),
+  Category VARCHAR(50),
+  ProductLength DECIMAL(10,2),
+  ProductWidth DECIMAL(10,2),
+  ProductThickness DECIMAL(10,2),
+  ProductWeight DECIMAL(10,2),
+  ProductColour VARCHAR(50),
+  ProductSurfaceFinish VARCHAR(50),
+  CostPerUnit DECIMAL(10,2) NOT NULL,
+  ConstructionTime BIGINT NOT NULL,
+  ComplianceInfo VARCHAR(50),
+  PRIMARY KEY (ProductID)
+);
+
+CREATE TABLE Customers
+(
+  CustomerID BIGINT IDENTITY(1,1) NOT NULL,
+  FirstName VARCHAR(50) NOT NULL,
+  LastName VARCHAR(50) NOT NULL,
+  Street VARCHAR(50) NOT NULL,
+  StreetNumber BIGINT NOT NULL,
+  PostalCode BIGINT NOT NULL,
+  City VARCHAR(50) NOT NULL,
+  Phone BIGINT NOT NULL,
+  Email VARCHAR(50) NOT NULL,
+  PRIMARY KEY (CustomerID)
+);
+
+CREATE TABLE ProductionTeams
+(
+  EmployeeID BIGINT IDENTITY(1,1) NOT NULL,
+  ProductionTeam VARCHAR(50) NOT NULL,
+  FirstName VARCHAR(50) NOT NULL,
+  LastName VARCHAR(50) NOT NULL,
+  EmployeeRole VARCHAR(50),
+  PRIMARY KEY (EmployeeID)
+);
+
+CREATE TABLE LogisticsPartners
+(
+  LogisticsPartnerID BIGINT IDENTITY(1,1) NOT NULL,
+  LogisticsPartnerName VARCHAR(50) NOT NULL,
+  Contact BIGINT NOT NULL,
+  PRIMARY KEY (LogisticsPartnerID)
+);
+
+CREATE TABLE ProductRawMaterials
+(
+  ProductID BIGINT NOT NULL,
+  MaterialID BIGINT NOT NULL,
+  PRIMARY KEY (ProductID, MaterialID),
+  FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+  FOREIGN KEY (MaterialID) REFERENCES Materials(MaterialID)
+);
+
+CREATE TABLE Orders
+(
+  OrderID BIGINT IDENTITY(2,2) NOT NULL,    --The OrderIDs are going to be even numbers
+  OrderDate DATE NOT NULL,
+  OrderStatus VARCHAR(50) NOT NULL,
+  OrderStatusDate DATE NOT NULL,
+  CustomerID BIGINT NOT NULL,
+  EmployeeID BIGINT NOT NULL,
+  PRIMARY KEY (OrderID),
+  FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
+  FOREIGN KEY (EmployeeID) REFERENCES ProductionTeams(EmployeeID),
+  CONSTRAINT OrderStatus CHECK (OrderStatus IN ('IN-PROCESS', 'IN-DELIVERY', 'COMPLETED','CANCELLED'))
+);
+
+CREATE TABLE Deliveries
+(
+  DeliveryID BIGINT IDENTITY(1,1) NOT NULL,
+  OrderID BIGINT NOT NULL,
+  LogisticsPartnerID BIGINT NOT NULL,
+  PRIMARY KEY (DeliveryID),
+  FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+  FOREIGN KEY (LogisticsPartnerID) REFERENCES LogisticsPartners(LogisticsPartnerID)
+);
+
+CREATE TABLE OrderProducts
+(
+  OrderID BIGINT NOT NULL,	
+  ProductID BIGINT NOT NULL,
+  Quantity BIGINT NOT NULL,
+  PRIMARY KEY (ProductID, OrderID),
+  FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+  FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
+);

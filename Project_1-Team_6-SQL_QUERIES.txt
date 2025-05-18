@@ -1,0 +1,153 @@
+-- a. List of all products ordered yesterday
+
+	SELECT p.ProductID,o.OrderId, p.ProductName, op.Quantity, o.OrderDate, CAST(GETDATE() AS DATE) as DateToday
+	FROM Orders o
+	JOIN OrderProducts op ON o.OrderID = op.OrderID
+	JOIN Products p ON op.ProductID = p.ProductID
+	WHERE o.OrderDate = DATEADD(DAY, -1, CAST(GETDATE() AS DATE));
+
+
+-- b. List of all finished orders ready to deliver
+
+	SELECT o.OrderID, o.OrderDate, o.OrderStatus, o.OrderStatusDate, c.FirstName, c.LastName, c.City,c.Street,c.StreetNumber,c.PostalCode,c.Phone,c.Email
+	FROM Orders o
+	JOIN Customers c ON o.CustomerID = c.CustomerID
+	WHERE o.OrderStatus = 'IN-DELIVERY';
+
+
+--c. List of all orders per customer, completed, pending, cancelled
+
+	SELECT  c.CustomerID, c.FirstName, c.LastName, o.OrderID ,o.OrderStatus
+	FROM Orders o
+	JOIN Customers c ON c.CustomerID = o.CustomerID
+	ORDER BY c.CustomerID, o.OrderStatus;
+
+
+--d. List of all products with quantities, ordered and delivered, ordered and pending, cancelled
+
+	SELECT p.ProductID, p.SKU,p.ProductName, 
+		SUM(CASE WHEN o.OrderStatus = 'COMPLETED' THEN op.Quantity ELSE 0 END) AS QuantityDelivered,
+		SUM(CASE WHEN o.OrderStatus IN ('IN-PROCESS', 'IN-DELIVERY') THEN op.Quantity ELSE 0 END) AS QuantityPending,
+		SUM(CASE WHEN o.OrderStatus = 'CANCELLED' THEN op.Quantity ELSE 0 END) AS QuantityCancelled
+	FROM Products p
+	JOIN OrderProducts op ON p.ProductID = op.ProductID
+	JOIN Orders o ON op.OrderID = o.OrderID
+	GROUP BY p.ProductID, p.ProductName,p.SKU;
+
+
+--e. List of orders per production team employee, completed, pending, cancelled
+
+	SELECT pt.EmployeeID, pt.FirstName, pt.LastName,pt.EmployeeRole, o.OrderID, o.OrderStatus,o.OrderStatusDate
+	FROM ProductionTeams pt
+	JOIN Orders o ON pt.EmployeeID = o.EmployeeID
+	ORDER BY pt.EmployeeID, o.OrderStatus,o.OrderStatusDate;
+
+
+--f. Daily order and production report
+
+-- Daily Order Report
+
+	DECLARE  @ReportDate  DATE
+	SET @ReportDate= GETDATE()
+
+	SELECT 
+		COUNT(CASE WHEN (o.OrderStatus = 'IN-PROCESS' OR o.OrderStatus = 'IN-DELIVERY') THEN 1 END) AS OrdersPending,
+		COUNT(CASE WHEN o.OrderStatus = 'COMPLETED' THEN 1 END) AS OrdersCompleted,
+		COUNT(CASE WHEN o.OrderStatus = 'CANCELLED' THEN 1 END) AS OrdersCancelled,
+		COUNT(*) AS TotalOrders
+	FROM 
+		Orders o
+	WHERE 
+		o.OrderStatusDate = @ReportDate;
+
+
+-- Daily Production Report
+
+	SELECT 
+		p.ProductID,
+		p.ProductName AS ProductName,
+		SUM(CASE WHEN (o.OrderStatus='IN-PROCESS' AND o.OrderStatusDate = @ReportDate) THEN oi.Quantity ELSE 0 END) AS TotalUnitsOrdered,
+		SUM(CASE WHEN (o.OrderStatus = 'IN-DELIVERY' AND o.OrderStatusDate = @ReportDate) THEN oi.Quantity ELSE 0 END) AS TotalUnitsProduced
+	FROM 
+		Orders o
+	JOIN 
+		OrderProducts oi ON o.OrderID = oi.OrderID
+	JOIN 
+		Products p ON oi.ProductID = p.ProductID
+	WHERE 
+		OrderStatusDate = @ReportDate
+	GROUP BY 
+		p.ProductID, p.ProductName;
+
+
+
+-- g.List of new orders per week
+
+	SELECT 
+		YEAR(o.OrderDate) AS Year,
+		DATEPART(WEEK, o.OrderDate) AS Week,
+		COUNT(*) AS NewOrders
+	FROM 
+		Orders o
+	WHERE 
+		DATEPART(WEEK, o.OrderDate) = DATEPART(WEEK,CAST(GETDATE() AS DATE)) 
+	GROUP BY 
+		 YEAR(o.OrderDate),DATEPART(WEEK, o.OrderDate)
+	ORDER BY 
+		Year, Week;
+
+
+-- List of new orders per month
+
+	SELECT 
+		YEAR(o.OrderDate) AS Year,
+		DATEPART(MONTH, o.OrderDate) AS Month,
+		COUNT(*) AS NewOrders
+	FROM 
+		Orders o
+	WHERE 
+		DATEPART(MONTH, o.OrderDate) = DATEPART(MONTH,CAST(GETDATE() AS DATE)) 
+	GROUP BY 
+		 YEAR(o.OrderDate),DATEPART(MONTH, o.OrderDate)
+	ORDER BY 
+		Year, Month;
+
+
+
+-- h. List of completed orders per week
+
+	SELECT DATEPART(WEEK, o.OrderStatusDate) AS WeekNumber, COUNT(o.OrderID) AS CompletedOrders
+	FROM Orders o
+	WHERE o.OrderStatus = 'COMPLETED' AND YEAR(o.OrderStatusDate) = YEAR(GETDATE())
+	GROUP BY DATEPART(WEEK, o.OrderStatusDate);
+
+-- List of completed orders per month
+
+	SELECT DATEPART(MONTH, o.OrderStatusDate) AS MonthNumber, COUNT(o.OrderID) AS CompletedOrders
+	FROM Orders o
+	WHERE o.OrderStatus = 'COMPLETED' AND YEAR(o.OrderStatusDate) = YEAR(GETDATE())
+	GROUP BY DATEPART(MONTH, o.OrderStatusDate);
+	
+	
+
+
+--COMMAND STATEMENTS
+
+-- 1.Command to create an order
+	INSERT INTO Orders (OrderDate, OrderStatus, OrderStatusDate, CustomerID, EmployeeID) 
+	VALUES ('2024-05-20', 'IN-PROCESS', '2024-05-20', 1, 1);
+
+
+-- 2.Command to finalize production
+	UPDATE Orders
+	SET OrderStatus = 'IN-DELIVERY', OrderStatusDate = CAST(GETDATE() AS DATE)
+	WHERE OrderID = 12;
+
+
+-- 3.Command to finalize an order and delivery
+	UPDATE Orders
+	SET OrderStatus = 'COMPLETED', OrderStatusDate = CAST(GETDATE() AS DATE)
+	WHERE OrderID = 12;
+
+	INSERT INTO Deliveries ( OrderID, LogisticsPartnerID)
+	VALUES (12, 1);

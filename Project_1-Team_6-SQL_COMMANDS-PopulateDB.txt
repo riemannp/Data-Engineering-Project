@@ -1,0 +1,370 @@
+USE Cataschevastica;
+
+INSERT INTO Suppliers ( SupplierName, Contact)
+VALUES 
+('BrickCo', '1234567890'),
+('ConcreteSupplies', '2345678901'),
+('SteelMasters', '3456789012'),
+('RoofingPros', '4567890123'),
+('InsulationWorks', '5678901234'),
+('CementDirect', '6789012345'),
+('MetalWorks', '7890123456'),
+('PaintsRUs', '8901234567'),
+('FastenersInc', '9012345678'),
+('GlazeCraft', '2123456789');
+
+
+
+INSERT INTO Materials (MaterialName, MaterialDescription, CostPerKg, SupplierID)
+VALUES 
+('Cement', 'Portland cement for construction use', 0.10, 1),
+('Sand', 'Fine aggregate for concrete and mortar', 0.05, 2),
+('Gravel', 'Coarse aggregate for concrete', 0.07, 3),
+('Water', 'Clean water for mixing concrete', 0.00, 4),
+('Admixtures', 'Chemical admixtures to modify concrete properties', 1.50, 5),
+('Iron ore', 'Raw material for steel production', 0.12, 6),
+('Coal', 'Coke for iron ore reduction in steelmaking', 0.08, 7),
+('Limestone', 'Flux for steel production and concrete', 0.04, 8),
+('Scrap steel', 'Recycled steel for production', 0.15, 9),
+('Clay', 'Raw material for brick and tile production', 0.03, 10),
+('Shale', 'Used in brick production', 0.02, 1),
+('Silica sand', 'Raw material for glass production', 0.06, 2),
+('Soda ash', 'Used in glass production', 0.10, 3),
+('Dolomite', 'Used in glass production', 0.08, 4),
+('Cullet', 'Recycled glass for new glass production', 0.04, 5),
+('Softwood logs', 'Timber for plywood production', 0.20, 6),
+('Hardwood logs', 'Timber for plywood production', 0.25, 6),
+('Adhesives', 'Phenol-formaldehyde resin for plywood', 1.00, 7),
+('Fiberglass', 'Insulation material for buildings', 0.30, 8),
+('Bitumen', 'Binder for asphalt production', 0.50, 9),
+('Aggregates', 'Crushed stone, gravel, sand for asphalt', 0.07, 3),
+('Feldspar', 'Used in ceramic tile production', 0.09, 2),
+('Talc', 'Used in ceramic tile production', 0.10, 2),
+('Polyvinyl chloride', 'PVC resin for pipes and flooring', 0.25, 2),
+('Plasticizers', 'Additives for PVC products', 1.20, 3),
+('Stabilizers', 'Additives for PVC products', 0.80, 4),
+('Bauxite', 'Ore for aluminum production', 0.20, 5),
+('Magnesium', 'Used in aluminum alloys', 0.15, 6),
+('Manganese', 'Used in aluminum alloys', 0.12, 7),
+('Gypsum', 'Used in drywall production', 0.05, 8),
+('Paper', 'Facing material for drywall', 0.02, 9),
+('Additives', 'Starches and surfactants for drywall', 1.00, 3),
+('Pigments', 'Titanium dioxide for paint', 2.00, 3),
+('Binders', 'Acrylic, epoxy, alkyd for paint', 1.50, 3),
+('Solvents', 'Water, mineral spirits for paint', 0.50, 3),
+('Additives', 'Thickeners, dispersants for paint', 1.00, 4),
+('Fiberglass mat', 'Reinforcement for roofing shingles', 0.30, 8),
+('Mineral granules', 'Surface material for roofing shingles', 0.10, 5),
+('Timber', 'Pine, oak, mahogany for door frames', 0.20, 6),
+('Varnish', 'Finish for wooden products', 1.00, 9),
+('Kaolin', 'Clay mineral for ceramic sanitary ware', 0.08, 7),
+('Quartz', 'Silica for ceramic sanitary ware', 0.06, 8),
+('High-density fiberboard', 'Core material for laminate flooring', 0.15, 5),
+('Melamine resin', 'Surface coating for laminate flooring', 1.00, 6),
+('Aluminum oxide', 'Coating for laminate flooring', 0.20, 6),
+('Polystyrene', 'Foam for insulation', 0.50, 6),
+('Polyurethane', 'Foam for insulation', 0.60, 10),
+('Recycled paper', 'Cellulose for insulation', 0.02, 8);
+
+
+
+-- Insert data into the Products table with proper product descriptions
+INSERT INTO Products (SKU, ProductName, ProductDescription, Category, ProductLength, ProductWidth, ProductThickness, ProductWeight, ProductColour, ProductSurfaceFinish, CostPerUnit, ConstructionTime, ComplianceInfo)
+VALUES 
+('HSCM-5000', 'High-Strength Concrete Mix', 'Premium quality concrete mix for construction and repair', 'Concrete', NULL, NULL, NULL, 50.00, 'Gray', 'Smooth', 8.99, 28, 'ASTM C387'),
+('RSB-10', 'Reinforced Steel Bars', 'High-strength steel bars for reinforced concrete structures', 'Rebar', 10.00, NULL, NULL, 15.00, 'Steel', 'Ribbed', 1.50, 7, 'ASTM A615'),
+('BRK-150', 'Clay Bricks', 'Durable bricks suitable for all types of masonry work', 'Bricks', 8.00, 4.00, 2.25, 5.00, 'Red', 'Matte', 0.50, 3, 'ASTM C62'),
+('GLW-001', 'Glass Windows', 'High-quality glass windows for residential and commercial buildings', 'Windows', 48.00, 36.00, 0.25, 20.00, 'Clear', 'Smooth', 120.00, 14, 'ASTM C1036'),
+('PLY-004', 'Plywood Sheets', 'Versatile plywood sheets for construction and furniture making', 'Plywood', 96.00, 48.00, 0.75, 60.00, 'Wood', 'Smooth', 25.00, 7, 'ANSI/HPVA HP-1'),
+('INS-300', 'Fiberglass Insulation', 'Effective insulation to maintain energy efficiency in buildings', 'Insulation', 96.00, 24.00, 3.50, 10.00, 'Pink', 'Fibrous', 30.00, 1, 'ASTM C665'),
+('ASP-500', 'Asphalt Mix', 'Durable asphalt mix for road and pavement construction', 'Asphalt', NULL, NULL, NULL, 2000.00, 'Black', 'Rough', 100.00, 2, 'ASTM D3515'),
+('CRT-200', 'Ceramic Tiles', 'Beautiful ceramic tiles for floors and walls', 'Tiles', 12.00, 12.00, 0.25, 2.00, 'Various', 'Glossy', 1.50, 2, 'ANSI A137.1'),
+('PVC-100', 'PVC Pipes', 'Durable PVC pipes for plumbing and drainage systems', 'Pipes', 120.00, 4.00, 4.00, 10.00, 'White', 'Smooth', 8.00, 1, 'ASTM D1785'),
+('ALC-300', 'Aluminum Cladding', 'Lightweight and durable aluminum cladding for exteriors', 'Cladding', 96.00, 48.00, 0.125, 15.00, 'Silver', 'Smooth', 45.00, 7, 'ASTM B209'),
+('GYP-200', 'Gypsum Board', 'Reliable gypsum board for walls and ceilings', 'Drywall', 96.00, 48.00, 0.50, 50.00, 'White', 'Smooth', 10.00, 1, 'ASTM C1396'),
+('PNT-450', 'Acrylic Paint', 'High-quality acrylic paint for interior and exterior use', 'Paints', 1.00, 1.00, 1.00, 10.00, 'Various', 'Smooth', 25.00, 1, 'ASTM D2486'),
+('RFS-001', 'Roofing Shingles', 'Durable roofing shingles with excellent weather resistance', 'Roofing', 36.00, 12.00, 0.25, 5.00, 'Black', 'Granular', 30.00, 1, 'ASTM D3462'),
+('CMB-100', 'Cement Blocks', 'High-strength cement blocks for building walls and foundations', 'Blocks', 16.00, 8.00, 8.00, 28.00, 'Gray', 'Rough', 1.25, 14, 'ASTM C90'),
+('SSB-400', 'Structural Steel Beams', 'Strong steel beams for building frameworks', 'Steel', 240.00, 12.00, 12.00, 300.00, 'Steel', 'Smooth', 100.00, 30, 'ASTM A992'),
+('GFRC-250', 'Glass Fiber Reinforced Concrete', 'Reinforced concrete with glass fibers for enhanced strength', 'Concrete', NULL, NULL, NULL, 50.00, 'Gray', 'Smooth', 15.00, 28, 'PCI MNL-130'),
+('WDF-150', 'Wooden Door Frame', 'Elegant wooden door frames for residential and commercial use', 'Doors', 80.00, 36.00, 5.00, 40.00, 'Wood', 'Smooth', 120.00, 3, 'AWI QCP'),
+('CSW-300', 'Ceramic Sanitary Ware', 'High-quality ceramic sanitary ware for bathrooms', 'Sanitary Ware', 20.00, 15.00, 15.00, 30.00, 'White', 'Glossy', 75.00, 7, 'ANSI Z124.1.2'),
+('LAM-200', 'Laminate Flooring', 'Durable and stylish laminate flooring for homes and offices', 'Flooring', 48.00, 6.00, 0.375, 5.00, 'Various', 'Smooth', 2.50, 1, 'NALFA LF-01'),
+('PVCF-100', 'PVC Flooring', 'Versatile PVC flooring for a variety of applications', 'Flooring', 36.00, 36.00, 0.125, 10.00, 'Various', 'Smooth', 15.00, 1, 'ASTM F1700');
+
+
+
+-- Populate Customers Table
+INSERT INTO Customers (FirstName, LastName, Street, StreetNumber, PostalCode, City, Phone, Email)
+VALUES 
+('Kostas', 'Papanikolaou', 'Main St', '123', 10001, 'New York', '1234567890', 'kostas.pap@example.com'),
+('Kostas', 'Sloukas', 'Second Ave', '456', 90210, 'Beverly Hills', '2345678901', 'slucky.luke@example.com'),
+('Kendrick', 'Nunn', 'Third Blvd', '789', 30301, 'Atlanta', '3456789012', 'kendrick.nunn@example.com'),
+('Giorgos', 'Bartzokas', 'Fourth St', '101', 60601, 'Chicago', '4567890123', 'chess.m@example.com'),
+('Ergin','Ataman', 'Fifth Ave', '112', 70112, 'New Orleans', '5678901234', 'aman.aman@example.com'),
+('Giannoulis', 'Larentzakis', 'Sixth Dr', '131', 85001, 'Phoenix', '6789012345', 'white.combra@example.com'),
+('Lorenzo', 'Brown', 'Seventh Ln', '415', 94101, 'San Francisco', '7890123456', 'lorenzo.brown@example.com'),
+('Panagiotis', 'Kalaitzakis', 'Eighth Rd', '161', 75201, 'Dallas', '8901234567', 'panos.kalaitzakis@example.com'),
+('Isiah', 'Canaan', 'Ninth Pl', '718', 33101, 'Miami', '9012345678', 'isiah.canaan@example.com'),
+( 'Ioannis', 'Papapetrou', 'Tenth St', '192', 98101, 'Seattle', '1012345678', 'ioannis.papapetrou@example.com');
+
+
+
+
+
+INSERT INTO ProductionTeams ( ProductionTeam, FirstName, LastName, EmployeeRole)
+VALUES 
+('Team A', 'Alice', 'Brown', 'Manager'),
+('Team A', 'Bob', 'Smith', 'Technician'),
+('Team B', 'Charlie', 'Davis', 'Supervisor'),
+('Team B', 'David', 'Evans', 'Technician'),
+('Team C', 'Eve', 'White', 'Manager'),
+('Team C', 'Frank', 'Johnson', 'Technician'),
+('Team D', 'Grace', 'Green', 'Supervisor'),
+('Team D', 'Hank', 'Hall', 'Technician'),
+('Team E', 'Ivy', 'Clark', 'Manager'),
+('Team E', 'Jack', 'Lewis', 'Technician');
+
+
+INSERT INTO LogisticsPartners ( LogisticsPartnerName, Contact)
+VALUES 
+('Logistics A', '1002003001'),
+('Logistics B', '2003004002'),
+('Logistics C', '3004005003'),
+('Logistics D', '4005006004'),
+('Logistics E', '5006007005'),
+('Logistics F', '6007008006'),
+('Logistics G', '7008009007'),
+('Logistics H', '8009001008'),
+('Logistics I', '9001002009'),
+('Logistics J', '1002003000');
+
+
+
+INSERT INTO Orders ( OrderDate, OrderStatus, OrderStatusDate, CustomerID, EmployeeID)
+VALUES 
+('2024-05-16 10:00:00', 'IN-PROCESS', '2024-05-17 10:00:00', 1, 1),
+('2024-05-17 11:00:00', 'IN-DELIVERY', '2024-05-20 15:00:00', 2, 2),
+('2024-05-20 12:00:00', 'COMPLETED', '2024-05-22 16:00:00', 3, 3),
+('2024-05-21 13:00:00', 'CANCELLED', '2024-05-21 14:00:00', 4, 4),
+('2024-05-21 14:00:00', 'IN-PROCESS', '2024-05-22 14:00:00', 5, 5),
+('2024-05-21 15:00:00', 'IN-DELIVERY', '2024-05-23 17:00:00', 6, 6),
+('2024-05-21 16:00:00', 'COMPLETED', '2024-05-25 18:00:00', 7, 7),
+('2024-05-22 17:00:00', 'CANCELLED', '2024-05-22 19:00:00', 8, 8),
+('2024-05-22 18:00:00', 'IN-PROCESS', '2024-05-23 18:00:00', 9, 9),
+('2024-05-22 19:00:00', 'IN-DELIVERY', '2024-05-24 20:00:00', 10, 10);
+
+
+INSERT INTO Deliveries ( OrderID, LogisticsPartnerID)
+VALUES 
+( 2, 1),
+( 4, 2),
+( 6, 3),
+( 8, 4),
+( 10, 5),
+( 12, 6),
+( 14, 7),
+(16, 8),
+( 18, 9),
+( 20, 10);
+
+INSERT INTO OrderProducts (OrderID, ProductID, Quantity)
+VALUES
+(2,3,6),
+(2,5,32),
+(2,7,6),
+(2,9,7),
+(4,3,8),
+(4,5,43),
+(4,7,24),
+(4,9,23),
+(4,1,64),
+(6,11,21),
+(6,1,35),
+(6,7,13),
+(6,9,56),
+(6,13,76),
+(6,17,98),
+(6,5,45),
+(8,19,9),
+(8,7,2),
+(8,11,1),
+(8,9,3),
+(8,5,4),
+(8,1,5),
+(8,15,8),
+(8,3,17),
+(8,13,23),
+(10,1,32),
+(10,3,76),
+(12,3,45),
+(14,9,56),
+(14,5,48),
+(14,11,79),
+(14,7,61),
+(14,15,12),
+(16,9,14),
+(16,11,12),
+(16,1,10),
+(16,17,11),
+(18,3,43),
+(18,11,34),
+(18,5,25),
+(18,17,67),
+(18,7,48),
+(18,9,54),
+(20,3,6),
+(20,11,12),
+(20,7,15);
+
+
+
+
+-- Mapping ProductID to corresponding MaterialID
+-- Assume ProductID starts from 1 and MaterialID starts from 1 
+
+-- High-Strength Concrete Mix
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(1, 2),  -- Cement
+(1, 4),  -- Sand
+(1, 6),  -- Gravel
+(1, 8),  -- Water
+(1, 10);  -- Admixtures
+
+-- Reinforced Steel Bars (Rebar)
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(3, 12),  -- Iron ore
+(3, 14),  -- Coal
+(3, 16),  -- Limestone
+(3, 18);  -- Scrap steel
+
+-- Clay Bricks
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(5, 20),  -- Clay
+(5, 22),  -- Shale
+(5, 8);   -- Water
+
+-- Glass Windows
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(7, 24),  -- Silica sand
+(7, 26),  -- Soda ash
+(7, 28),  -- Limestone
+(7, 30);  -- Cullet
+
+-- Plywood Sheets
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(9, 32),  -- Softwood logs
+(9, 34);  -- Adhesives
+
+-- Fiberglass Insulation
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(11, 36);  -- Fiberglass
+
+-- Asphalt Mix
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(13, 38),  -- Bitumen
+(13, 6);   -- Aggregates
+
+-- Ceramic Tiles
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(15, 20),  -- Clay
+(15, 40),  -- Feldspar
+(15, 4),   -- Sand
+(15, 42);  -- Talc
+
+-- PVC Pipes
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(17, 44),  -- Polyvinyl chloride
+(17, 46),  -- Plasticizers
+(17, 48);  -- Stabilizers
+
+-- Aluminum Cladding
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(19, 50),  -- Bauxite
+(19, 52),  -- Magnesium
+(19, 54);  -- Manganese
+
+-- Gypsum Board
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(21, 56),  -- Gypsum
+(21, 58),  -- Paper
+(21, 60);  -- Additives
+
+-- Acrylic Paint
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(23, 62),  -- Pigments
+(23, 64),  -- Binders
+(23, 66),  -- Solvents
+(23, 68);  -- Additives
+
+-- Roofing Shingles
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(25, 38),  -- Bitumen
+(25, 36),  -- Fiberglass mat
+(25, 70);  -- Mineral granules
+
+-- Cement Blocks
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(27, 2),  -- Cement
+(27, 4),  -- Sand
+(27, 6),  -- Aggregates
+(27, 8);  -- Water
+
+-- Structural Steel Beams
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(29, 12),  -- Iron ore
+(29, 14),  -- Coal
+(29, 16),  -- Limestone
+(29, 18);  -- Scrap steel
+
+-- Glass Fiber Reinforced Concrete
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(31, 2),  -- Cement
+(31, 4),  -- Sand
+(31, 36), -- Fiberglass
+(31, 8);  -- Water
+
+-- Wooden Door Frame
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(33, 32),  -- Timber
+(33, 72);  -- Varnish
+
+-- Ceramic Sanitary Ware
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(35, 20),  -- Clay
+(35, 74),  -- Kaolin
+(35, 76);  -- Quartz
+
+-- Laminate Flooring
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(37, 78),  -- High-density fiberboard
+(37, 80),  -- Melamine resin
+(37, 82);  -- Aluminum oxide
+
+-- PVC Flooring
+INSERT INTO ProductRawMaterials (ProductID, MaterialID)
+VALUES 
+(39, 44),  -- Polyvinyl chloride
+(39, 46),  -- Plasticizers
+(39, 48);  -- Stabilizers
+
+
